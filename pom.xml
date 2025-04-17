@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+        <relativePath/>
+    </parent>
+    <groupId>com.hl</groupId>
+    <artifactId>aug-cms</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>aug-cms</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <aug.cms.version>0.0.1-SNAPSHOT</aug.cms.version>
+        <common.lang3.version>3.11</common.lang3.version>
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>2.7.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--spring cloud 相关版本依赖配置，解决ConfigurationBeanFactoryMetadata 找不到现象-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2021.0.5</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--nacos-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>2.2.7.RELEASE</version>
+            </dependency>
+
+            <!--工具类库 start-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>6.1.5.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.80</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>4.9.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${common.lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet-api.version}</version>
+            </dependency>
+
+            <!--工具类库 end-->
+
+            <!--swagger 相关配置-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.8.0</version>
+            </dependency>
+
+            <!--数据库相关配置 start-->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>2.2.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>1.2.15</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.28</version>
+            </dependency>
+
+
+            <!--数据库相关配置 end-->
+
+            <!--日志相关 start-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.17.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.17.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>2.7.0</version>
+            </dependency>
+            <!--日志结束相关 end-->
+
+            <!--公共的依赖 start-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>3.5.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>3.5.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.4</version>
+            </dependency>
+            <!--公共模块 end-->
+
+
+            <!--本项目 start-->
+            <dependency>
+                <groupId>com.hl</groupId>
+                <artifactId>aug-cms-common</artifactId>
+                <version>${aug.cms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hl</groupId>
+                <artifactId>aug-cms-consumer</artifactId>
+                <version>${aug.cms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hl</groupId>
+                <artifactId>aug-cms-domain</artifactId>
+                <version>${aug.cms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hl</groupId>
+                <artifactId>aug-cms-mapper</artifactId>
+                <version>${aug.cms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hl</groupId>
+                <artifactId>aug-cms-service</artifactId>
+                <version>${aug.cms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hl</groupId>
+                <artifactId>aug-cms-web</artifactId>
+                <version>${aug.cms.version}</version>
+            </dependency>
+            <!--本项目 end-->
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>aug-cms-common</module>
+        <module>aug-cms-domain</module>
+        <module>aug-cms-mapper</module>
+        <module>aug-cms-service</module>
+        <module>aug-cms-web</module>
+        <module>aug-cms-consumer</module>
+    </modules>
+</project>

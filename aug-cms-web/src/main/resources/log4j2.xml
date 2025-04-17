@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+    <!--properties:设置全局变量 -->
+    <properties>
+        <!-- 文件输出格式 -->
+        <property name="pattern">[%d],[%p],%X,%c,%m%n</property>
+    </properties>
+
+    <appenders>
+        <!-- 控制台输出 -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+
+        <!-- error统一日志 -->
+        <RollingFile name="common-error" fileName="${sys:user.home}/logs/aug-cms/common-error.log"
+                     filePattern="${sys:user.home}/logs/aug-cms/$${date:yyyy-MM}/common-error-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${pattern}"/>
+            <!-- 只显示error级别日志 -->
+            <ThresholdFilter level="ERROR"/>
+            <Policies>
+                <!-- 每天更新一次,单位依赖于filePattern后的日期格式 -->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="500M"/>
+            </Policies>
+            <!-- 最多备份14个 -->
+            <DefaultRolloverStrategy>
+                <Delete basePath="${sys:user.home}/logs/aug-cms" maxDepth="2">
+                    <IfFileName glob="*/common-error-*.log"/>
+                    <IfLastModified age="3d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 拦截器日志 -->
+        <RollingFile name="interceptor" fileName="${sys:user.home}/logs/aug-cms/access.log"
+                     filePattern="${sys:user.home}/logs/aug-cms/$${date:yyyy-MM}/access-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="500M"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${sys:user.home}/logs/aug-cms" maxDepth="2">
+                    <IfFileName glob="*/access-*.log"/>
+                    <IfLastModified age="5d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 业务默认日志 -->
+        <RollingFile name="common-default" fileName="${sys:user.home}/logs/aug-cms/common-default.log"
+                     filePattern="${sys:user.home}/logs/aug-cms/$${date:yyyy-MM}/common-default-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="1000M"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${sys:user.home}/logs/aug-cms" maxDepth="2">
+                    <IfFileName glob="*/common-default-*.log"/>
+                    <IfLastModified age="3d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- rocket-mq -->
+        <RollingFile name="rocket-mq" fileName="${sys:user.home}/logs/aug-cms/rocket-mq.log"
+                     filePattern="${sys:user.home}/logs/aug-cms/$${date:yyyy-MM}/rocket-mq-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="500M"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${sys:user.home}/logs/aug-cms" maxDepth="2">
+                    <IfFileName glob="*/rocket-mq-*.log"/>
+                    <IfLastModified age="3d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- FFmpeg日志 -->
+        <RollingFile name="ffmpeg" fileName="${sys:user.home}/logs/aug-cms/ffmpeg.log"
+                     filePattern="${sys:user.home}/logs/aug-cms/$${date:yyyy-MM}/ffmpeg-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="500M"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${sys:user.home}/logs/aug-cms" maxDepth="2">
+                    <IfFileName glob="*/ffmpeg-*.log"/>
+                    <IfLastModified age="5d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <!--name: 打印日志的类的包路径 -->
+        <!--additivity: true当前的Logger打印的日志附加到Root，false仅仅打印到 interceptor -->
+        <!-- 拦截器日志 -->
+        <logger name="interceptor" level="info" additivity="false">
+            <appender-ref ref="interceptor"/>
+        </logger>
+
+        <!-- 业务日志 -->
+        <logger name="common-default" level="info" additivity="false">
+            <appender-ref ref="common-default"/>
+            <appender-ref ref="common-error"/>
+        </logger>
+
+        <!-- error统一日志 -->
+        <logger name="common-error" level="error" additivity="false">
+            <appender-ref ref="common-error"/>
+        </logger>
+
+        <!-- MQ日志 -->
+        <logger name="rocket-mq" level="info" additivity="false">
+            <appender-ref ref="rocket-mq"/>
+            <appender-ref ref="common-error"/>
+        </logger>
+
+        <!-- MQ日志 -->
+        <logger name="ffmpeg" level="info" additivity="false">
+            <appender-ref ref="ffmpeg"/>
+        </logger>
+
+        <!--Root:日志默认打印-->
+        <root level="info">
+            <appender-ref ref="console"/>
+            <appender-ref ref="common-default"/>
+        </root>
+    </loggers>
+</Configuration>

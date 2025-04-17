@@ -1,0 +1,51 @@
+spring:
+  # mysql
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://ip:host/db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username:
+      password:
+      initialSize: 10
+      minIdle: 10
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 900000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+  # redis
+  redis:
+    host: ip
+    port: 6379
+    timeout: 1000
+    database: 1
+    password:
+    jedis:
+      pool:
+        max-active: 1024
+        max-wait: 3000
+        max-idle: 200
+        min-idle: 5
+  # nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ip
+        namespace:
+
+
+
+dubbo:
+  registry:
+    address: nacos://ip:8848
+    parameters:
+      namespace:
+
+
+
+deploy:
+  mode: dev

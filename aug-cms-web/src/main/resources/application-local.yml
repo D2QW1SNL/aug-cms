@@ -1,0 +1,20 @@
+spring:
+  # nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ip
+        namespace:
+
+
+
+dubbo:
+  registry:
+    address: nacos://ip:8848
+    parameters:
+      namespace:
+
+
+
+deploy:
+  mode: local
