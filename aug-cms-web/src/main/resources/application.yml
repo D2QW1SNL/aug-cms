@@ -8,14 +8,15 @@ spring:
     pathmatch:
        matching-strategy: ant_path_matcher
 
-
 server:
-  port: 80
+  port: 8080
   tomcat:
     accept-count: 800
     threads:
       max: 400
       min-spare: 200
+  servlet:
+    context-path: /aug-cms
 
 #mybatis 相关配置
 mybatis:
